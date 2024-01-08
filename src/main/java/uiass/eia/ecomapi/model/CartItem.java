@@ -1,14 +1,14 @@
 package uiass.eia.ecomapi.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Getter
@@ -17,10 +17,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CartItem {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    @JsonBackReference(value = "ref")
     Order order;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    @JsonBackReference
     Product product;
     int quantity;
 

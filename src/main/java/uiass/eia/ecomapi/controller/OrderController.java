@@ -22,7 +22,7 @@ public class OrderController {
     public List<User> getUsers(){
         return serviceMetier.getUsers();
     }
-    @PostMapping(path="/", consumes = "application/json")
+    @PostMapping(path="/", consumes = "application/json", produces = "application/json")
     public Order postOrder(@RequestBody Order order){
         return serviceMetier.createOrder(order);
     }

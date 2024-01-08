@@ -1,6 +1,8 @@
 package uiass.eia.ecomapi.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +21,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference
+    List<CartItem> cartItem;
     @Transient
     String title;
     @Transient

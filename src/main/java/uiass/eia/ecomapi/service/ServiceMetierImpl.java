@@ -2,12 +2,11 @@ package uiass.eia.ecomapi.service;
 
 import jakarta.validation.ConstraintViolationException;
 import org.aspectj.weaver.ast.Or;
+import org.hibernate.Session;
+import org.hibernate.annotations.Cascade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uiass.eia.ecomapi.model.Comment;
-import uiass.eia.ecomapi.model.Order;
-import uiass.eia.ecomapi.model.Product;
-import uiass.eia.ecomapi.model.User;
+import uiass.eia.ecomapi.model.*;
 import uiass.eia.ecomapi.repository.CommentRepository;
 import uiass.eia.ecomapi.repository.OrderRepository;
 import uiass.eia.ecomapi.repository.ProductRepository;
@@ -109,13 +108,18 @@ public class ServiceMetierImpl implements IServiceMetier{
     @Override
     public void initializeProducts(int lenProducts) {
         for (int i = 1; i <= lenProducts; i++)
-            productRepository.save(new Product((long) i));
+            productRepository.save(new Product(i));
     }
 
     @Override
     public Order createOrder(Order order) {
         Order newOrder = new Order(order.getOrderDetails(), order.getUser(), order.getDate());
-        return orderRepository.save(newOrder);
+        List<CartItem> cartItems = order.getOrderDetails();
+        cartItems.forEach((cartItem -> cartItem.setOrder(newOrder)));
+        List<CartItem> orderDetails = new ArrayList<>(cartItems);
+        newOrder.setOrderDetails(orderDetails);
+        orderRepository.save(newOrder);
+        return newOrder;
     }
 
     @Override
