@@ -3,6 +3,7 @@ package uiass.eia.ecomapi.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,12 +15,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DetailsCommande {
+public class CartItem {
     @Id
     Long id;
+    @ManyToOne
+    Order order;
     @OneToOne
-    Commande commande;
-    String nomProduit;
-    int qte;
+    Product product;
+    int quantity;
 
 }

@@ -24,7 +24,8 @@ public class User implements Serializable {
     private String name;
     @NotBlank(message = "Password is mandatory")
     private String password;
-//    @Email(message = "Invalid email address")
+    @Email(message = "Invalid email address")
+    @Column(unique = true)
     private String email;
 //    @Min(value = 13, message = "Age should not be less than 13")
 //    @Max(value = 150, message = "Age should not be greater than 150")

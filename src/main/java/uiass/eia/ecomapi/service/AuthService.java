@@ -16,6 +16,9 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -32,12 +35,12 @@ public class AuthService implements IAuthService{
              Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, rsaPrivateKey);
              token = JWT.create()
                      .withIssuer(issuer)
-                     .withClaim("subject", userId)
+                     .withExpiresAt(Date.from(LocalDate.now().plusDays(1L).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                     .withClaim("sub", userId)
                      .sign(algorithm);
          } catch (JWTCreationException exception){
              exception.printStackTrace();
          }
-         System.out.println(token);
          return token;
      }
      public DecodedJWT verifyToken(String token) {
@@ -56,4 +59,4 @@ public class AuthService implements IAuthService{
          }
          return decodedJWT;
      }
-}
+ }

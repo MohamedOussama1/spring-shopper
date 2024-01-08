@@ -19,9 +19,6 @@ public class EcomapiApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args){
+        serviceMetier.initializeProducts(100);
     }
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 }

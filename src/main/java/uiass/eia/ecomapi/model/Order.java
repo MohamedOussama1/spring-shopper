@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
@@ -16,11 +17,18 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Commande {
+public class Order {
     @Id
     Long id;
     @OneToMany
-    List<DetailsCommande> detailsCommandes = new ArrayList<>();
+    List<CartItem> orderDetails = new ArrayList<>();
     @ManyToOne
     User user;
+    LocalDate date;
+
+    public Order(List<CartItem> orderDetails, User user, LocalDate date) {
+        this.orderDetails = orderDetails;
+        this.user = user;
+        this.date = date;
+    }
 }
