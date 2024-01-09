@@ -17,14 +17,13 @@ public class Comment {
     Long id;
     @ManyToOne
     User user;
-    @ManyToOne
-    Product product;
+    int product;
     String name;
     String details;
     String title;
     double rating;
 
-    public Comment(User user, Product product, String name, String details, String title, double rating) {
+    public Comment(User user, int product, String name, String details, String title, double rating) {
         this.user = user;
         this.product = product;
         this.name = name;

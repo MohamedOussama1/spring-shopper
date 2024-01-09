@@ -27,8 +27,8 @@ public class User implements Serializable {
     @Email(message = "Invalid email address")
     @Column(unique = true)
     private String email;
-//    @Min(value = 13, message = "Age should not be less than 13")
-//    @Max(value = 150, message = "Age should not be greater than 150")
+    @Min(value = 13, message = "Age should not be less than 13")
+    @Max(value = 150, message = "Age should not be greater than 150")
     private int age;
     private String city;
     private String address;

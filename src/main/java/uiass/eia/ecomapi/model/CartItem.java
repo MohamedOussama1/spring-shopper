@@ -2,13 +2,11 @@ package uiass.eia.ecomapi.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 
 @Entity
 @Getter
@@ -23,10 +21,16 @@ public class CartItem {
     @JoinColumn(name = "order_id")
     @JsonBackReference(value = "ref")
     Order order;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    @JsonBackReference
-    Product product;
+    int productId;
     int quantity;
 
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "id=" + id +
+                ", order=" + order +
+                ", product=" + productId +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

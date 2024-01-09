@@ -19,6 +19,5 @@ public class EcomapiApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args){
-        serviceMetier.initializeProducts(100);
     }
 }

@@ -1,23 +1,16 @@
 package uiass.eia.ecomapi.service;
 
 import jakarta.validation.ConstraintViolationException;
-import org.aspectj.weaver.ast.Or;
-import org.hibernate.Session;
-import org.hibernate.annotations.Cascade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uiass.eia.ecomapi.model.*;
 import uiass.eia.ecomapi.repository.CommentRepository;
 import uiass.eia.ecomapi.repository.OrderRepository;
-import uiass.eia.ecomapi.repository.ProductRepository;
 import uiass.eia.ecomapi.repository.UserRepository;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Component
 public class ServiceMetierImpl implements IServiceMetier{
@@ -27,8 +20,6 @@ public class ServiceMetierImpl implements IServiceMetier{
     private CommentRepository commentRepository;
     @Autowired
     private OrderRepository orderRepository;
-    @Autowired
-    private ProductRepository productRepository;
     @Autowired
     private IAuthService authService;
     String JWT_ISSUER = "auth0";
@@ -91,26 +82,16 @@ public class ServiceMetierImpl implements IServiceMetier{
     }
 
     @Override
-    public List<Comment> getCommentsByProductId(Long productId) {
-        Product product = productRepository.findProductById(productId);
-        return commentRepository.findCommentsByProduct(product);
+    public List<Comment> getCommentsByProductId(int productId) {
+        return commentRepository.findCommentsByProduct(productId);
     }
 
     @Override
-    public void addComment(User user, Long productId, String name, String details, String title, double rating) {
-        Product product = productRepository.findProductById(productId);
-        Comment comment = new Comment(user, product, name, details, title, rating);
-        productRepository.save(product);
+    public void addComment(User user, int productId, String name, String details, String title, double rating) {
+        Comment comment = new Comment(user, productId, name, details, title, rating);
         userRepository.save(user);
         commentRepository.save(comment);
     }
-
-    @Override
-    public void initializeProducts(int lenProducts) {
-        for (int i = 1; i <= lenProducts; i++)
-            productRepository.save(new Product(i));
-    }
-
     @Override
     public Order createOrder(Order order) {
         Order newOrder = new Order(order.getOrderDetails(), order.getUser(), order.getDate());
@@ -121,7 +102,6 @@ public class ServiceMetierImpl implements IServiceMetier{
         orderRepository.save(newOrder);
         return newOrder;
     }
-
     @Override
     public List<Order> findOrdersByUser(Long userId) {
         List<Order> orders = new ArrayList<>();
@@ -129,5 +109,16 @@ public class ServiceMetierImpl implements IServiceMetier{
         if (user.isPresent())
             orders = orderRepository.findOrdersByUser(user.get());
         return orders;
+    }
+
+    @Override
+    public void deleteOrdersByUser(Long userId) {
+        List<Order> orders = findOrdersByUser(userId);
+        orderRepository.deleteAll(orders);
+    }
+
+    @Override
+    public void deleteCommentsByUser(Long id) {
+        commentRepository.deleteAll(commentRepository.findCommentsByUser(findUserById(id)));
     }
 }

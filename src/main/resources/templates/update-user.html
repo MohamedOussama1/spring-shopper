@@ -11,30 +11,38 @@
         <input type="number" th:field="*{id}" placeholder="id" />
     </div>
     <div>
-        <label>Username:</label>
-        <input type="text" th:field="*{username}" placeholder="username" />
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" placeholder="Full Name" />
     </div>
     <div>
         <label>Password:</label>
-        <input type="text" th:field="*{password}" placeholder="password" />
+        <input type="text" th:field="*{password}" placeholder="" />
     </div>
     <div>
         <label>Email:</label>
-        <input type="email" th:field="*{email}" placeholder="email" />
+        <input type="email" th:field="*{email}" placeholder="" />
     </div>
     <div>
         <label>Age:</label>
-        <input type="number" th:field="*{age}" placeholder="age" />
+        <input type="number" value="13" min="13" max="120" th:field="*{age}" placeholder="" />
     </div>
     <div>
-        <label>Last Name:</label>
-        <input type="text" th:field="*{name}" placeholder="last name" />
+        <label>MobileNumber:</label>
+        <input type="text" th:field="*{mobileNumber}" placeholder="ex +212 676466549" />
     </div>
     <div>
-        <label>First Name:</label>
-        <input type="text" th:field="*{pronoun}" placeholder="first name" />
+        <label>City:</label>
+        <input type="text" th:field="*{city}" placeholder="" />
     </div>
-    <input type="submit" value="Submit"/>
+    <div>
+        <label>Address:</label>
+        <input type="text" th:field="*{address}" placeholder="" />
+    </div>
+    <div>
+        <label>Zip:</label>
+        <input type="text" th:field="*{zip}" placeholder="ex 30000" />
+    </div>
+    <input type="submit" value="Submit" href="/updateUser"/>
 </form>
 
 </body>

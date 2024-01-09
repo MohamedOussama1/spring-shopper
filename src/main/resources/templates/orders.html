@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Update Useer</title>
+</head>
+<body>
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <h1 th:text="${user.name}" class="bold w-100 d-block text-xl-center"></h1>
+    <div th:each="order:${orders}" style="border-radius: 20px" class="p-4 m-4">
+        <div class="d-flex flex-row justify-content-between w-100">
+            <p th:value="${order.date}"></p>
+        </div>
+        <div th:each="orderDetail:${order.orderDetails}">
+            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                <div class="col-md-3 col-lg-3 col-xl-3">
+                    <label for="form1" class="text-black mb-0 bold">Product</label>
+                    <input id="form1" name="product"  disabled th:value="${orderDetail.productId}" type="number"
+                           style="width: 50px"
+                           class="form-control form-control-sm" />
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                    <label for="form2" class="text-black mb-0 bold">Quantity</label>
+                    <input id="form2" name="quantity"  disabled th:value="${orderDetail.quantity}" type="number"
+                           style="width: 50px"
+                           class="form-control form-control-sm" />
+                </div>
+            </div>
+            <hr class="my-4">
+        </div>
+    </div>
+</div>
+</body>
+</html>

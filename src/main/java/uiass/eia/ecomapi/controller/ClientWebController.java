@@ -5,12 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uiass.eia.ecomapi.model.User;
+import uiass.eia.ecomapi.repository.UserRepository;
 import uiass.eia.ecomapi.service.IServiceMetier;
 
 @Controller
 public class ClientWebController {
     @Autowired
     IServiceMetier serviceMetier;
+    @Autowired
+    private UserRepository userRepository;
+
     @RequestMapping(path="/home", method = RequestMethod.GET)
     public String getHome(Model model){
         model.addAttribute("userList", serviceMetier.getUsers());
@@ -18,6 +22,8 @@ public class ClientWebController {
     }
     @RequestMapping(path="/deleteUser/{id}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable(value = "id") Long id){
+        serviceMetier.deleteOrdersByUser(id);
+        serviceMetier.deleteCommentsByUser(id);
         serviceMetier.deleteUser(id);
         return "redirect:/home";
     }
@@ -34,9 +40,7 @@ public class ClientWebController {
     }
     @RequestMapping(path = "/addUser", method = RequestMethod.POST)
     public String addUserForm(@ModelAttribute User user){
-        serviceMetier.addUser(
-                user.getName(), user.getPassword(), user.getEmail()
-        );
+        userRepository.save(user);
         return "redirect:/home";
     }
     @RequestMapping(path="/updateUserForm/{id}", method = RequestMethod.GET)
@@ -46,7 +50,7 @@ public class ClientWebController {
         model.addAttribute("id", id);
         return "update-user";
     }
-    @RequestMapping(path="/updateUser", method = RequestMethod.PUT)
+    @RequestMapping(path="/updateUser", method = RequestMethod.POST)
     public String submitUpdateForm(@ModelAttribute User user){
         serviceMetier.updateUser(user);
         return "redirect:/home";
@@ -54,5 +58,12 @@ public class ClientWebController {
     @RequestMapping(path="/form", method = RequestMethod.GET)
     public String getForm(Model model){
         return "form";
+    }
+    @RequestMapping(path="/userOrders/{id}", method = RequestMethod.GET)
+    public String getOrdersByUser(@PathVariable(value = "id") Long userId, Model model){
+        User user = serviceMetier.findUserById(userId);
+        model.addAttribute("user", user);
+        model.addAttribute("orders", serviceMetier.findOrdersByUser(userId));
+        return "orders";
     }
 }
