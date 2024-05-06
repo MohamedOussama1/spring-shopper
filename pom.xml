@@ -10,7 +10,7 @@
     </parent>
     <groupId>uiass.eia</groupId>
     <artifactId>ecomapi</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>ecomapi</name>
     <description>ecomapi</description>
     <properties>
