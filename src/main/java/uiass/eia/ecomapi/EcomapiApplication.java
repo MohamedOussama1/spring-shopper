@@ -13,7 +13,7 @@ public class EcomapiApplication implements CommandLineRunner {
     IServiceMetier serviceMetier;
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        System.out.println("Hello Test!");
         SpringApplication.run(EcomapiApplication.class, args);
 
     }
